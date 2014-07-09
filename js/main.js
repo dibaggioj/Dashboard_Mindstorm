@@ -27,6 +27,8 @@ var botStore = { // client id (GUID) : bot name
 }
 var botId = "", botIndex = 0;
 
+var gameStates = {}
+
 
 require.config({
     baseUrl: 'js',
@@ -61,7 +63,7 @@ require(['BrowserBigBangClient'], function (bigbang) {
 
         /* === Dashboard control panel === */
 
-        var gameBoundX = 1132, gameBoundY = 595;
+        var gameBoundX = 1132, gameBoundY = 659;
         game = new Phaser.Game(gameBoundX, gameBoundY, Phaser.AUTO, "gameWorld", {
             preload: preload, 
             create: create,
@@ -110,10 +112,10 @@ require(['BrowserBigBangClient'], function (bigbang) {
 
         // Specify the number of motors
         var numMotors = 4; //specify # of motors (for now, it must be no more than 26 )
-        var motorColumns = 2, motorRows = ''; //specify either # of columns or # of rows (NOT both!) 
+        var motorColumns = '', motorRows = 1; //specify either # of columns or # of rows (NOT both!) 
 
         // Specify the number of gangs
-        var numGangs = 2; //specify # of motors (for now, it must be no more than 26 )
+        var numGangs = 1; //specify # of motors (for now, it must be no more than 26 )
         var gangColumns = 1, gangRows = '';
 
         /* Motor positions */
@@ -129,7 +131,7 @@ require(['BrowserBigBangClient'], function (bigbang) {
         // set motor frame positions
         if ( maxMotorRows === 1 ) {
             for ( var j = 1; j <= maxMotorColumns; j++ ) {
-                positionMotors[ letters[ j ] ] = { x : 286 + (j-1)*285, y : 66 }
+                positionMotors[ letters[ j ] ] = { x : 1 + (j-1)*285, y : 426 }
             }            
         }
         else {
@@ -193,12 +195,12 @@ require(['BrowserBigBangClient'], function (bigbang) {
         var heightMotors = maxMotorRows * ( 232 + 10 ) - 10;
         var heightGangs = maxGangRows * ( 231 + ( numCheckboxRows ) * 28 + 10 ) - 10;
         var heightMax = Math.max( heightMotors, heightGangs );
-        if ( heightMax + 66 + 1 > gameBoundY ) {
-            game.height = gameBoundY = heightMax + 66 + 1;
-        }
-        else if ( heightMax + 66 + 1 < gameBoundY ) {
-            game.height = gameBoundY = heightMax + 66 + 1;
-        }
+        // if ( heightMax + 66 + 1 > gameBoundY ) {
+        //     game.height = gameBoundY = heightMax + 66 + 1;
+        // }
+        // else if ( heightMax + 66 + 1 < gameBoundY ) {
+        //     game.height = gameBoundY = heightMax + 66 + 1;
+        // }
 
         /* Motor object */
         var motors = {}
@@ -539,7 +541,7 @@ require(['BrowserBigBangClient'], function (bigbang) {
         var IR = { IRDistDisplay : 0 }
 
         /* Ultrasonic sensor */
-        var positionUltrasonic = { x : 1, y : 426 }
+        var positionUltrasonic = { x : 856, y : 335 }
         var labelUltrasonic, labelUltrasonicDist, labelUltrasonicUnits;
         var ultrasonicDist = 0;
         var ultrasonic = { ultrasonicDistDisplay : 0 }
@@ -554,6 +556,10 @@ require(['BrowserBigBangClient'], function (bigbang) {
         // var positionScreen = { x : 15, y : 133 }
         // var labelScreen, LCDScreenBox;
         // var screenMessage = { messageDisplay1 : "", messageDisplay2 : "", messageDisplay3 : "" }
+
+        /* Video feed */
+        var positionVideo = { x : 286, y : 66 }  
+        var labelVideo, pictureVideo;      
 
         /* Button for testing */
         var getKeyspaceButton;
@@ -1100,6 +1106,8 @@ require(['BrowserBigBangClient'], function (bigbang) {
             game.load.image('sensorBar','assets/sensor_bar.png',273,23);
             game.load.image('dividerLine','assets/divider_line.png',144,1);
             game.load.image('dividerLine2','assets/divider_line_2.png',261,22);
+            game.load.image('videoBar','assets/video_bar.png',558,23);
+            game.load.image('picVideo','assets/robot_pic.jpg');
         } //end preload
       //==============================================================================================================================
         function create() {          
@@ -1128,7 +1136,7 @@ require(['BrowserBigBangClient'], function (bigbang) {
           /* Translucent background/underlay */
             underlay = game.add.graphics(0,0);
             underlay.lineStyle( 1 + browserFix/4, 0x808080, .4);
-            underlay.beginFill(0x808080,0.1);
+            underlay.beginFill(0x808080,0.10);
             underlay.drawRect(0, 66, gameBoundX, gameBoundY-66);
 
           /* Frames */
@@ -1136,8 +1144,12 @@ require(['BrowserBigBangClient'], function (bigbang) {
             frames[ 'touch' ] = new Frame( game, 'touch', positionTouch.x, positionTouch.y, 275, 86);
             frames[ 'color' ] = new Frame( game, 'color', positionColor.x, positionColor.y, 275, 88);
             frames[ 'IR' ] = new Frame( game, 'IR', positionIR.x, positionIR.y, 275, 60);
-            frames[ 'ultrasonic' ] = new Frame( game, 'ultrasonic', positionUltrasonic.x, positionUltrasonic.y, 275, 60);
+            frames[ 'ultrasonic' ] = new Frame( game, 'ultrasonic', positionUltrasonic.x, positionUltrasonic.y, 275, 81);
             //frames[ 'screen' ] = new Frame( game, 'screen', positionScreen.x, positionScreen.y, 275, 88);
+
+            // filler:
+            frames[ 'video' ] = new Frame( game, 'video', positionVideo.x, positionVideo.y, 560, 350);
+ 
 
           /* Top Bars */
             topBars[ 'system' ] = game.add.sprite( positionSystem.x+1, positionSystem.y+1,'sensorBar');
@@ -1145,7 +1157,9 @@ require(['BrowserBigBangClient'], function (bigbang) {
             topBars[ 'color' ] = game.add.sprite( positionColor.x+1, positionColor.y+1,'sensorBar');
             topBars[ 'IR' ] = game.add.sprite( positionIR.x+1, positionIR.y+1,'sensorBar');
             topBars[ 'ultrasonic' ] = game.add.sprite( positionUltrasonic.x+1, positionUltrasonic.y+1,'sensorBar');
+            topBars[ 'video' ] = game.add.sprite( positionVideo.x+1, positionVideo.y+1,'videoBar');
             //topBars[ 'screen' ] = game.add.sprite( positionScreen.x+1, positionScreen.y+1,'sensorBar');
+
 
           /* Labels */
             status.statusDisplay =  game.add.text(positionSystem.x+12, positionSystem.y+60+browserFix, "running...", statusStyle);
@@ -1181,6 +1195,9 @@ require(['BrowserBigBangClient'], function (bigbang) {
             labelUltrasonicUnits = game.add.text(positionUltrasonic.x+128+browserFix, positionUltrasonic.y+32+browserFix, "cm", labelStyle);
             
             //labelScreen = game.add.text(positionScreen.x+8, positionScreen.y+1+browserFix, "LCD Screen", titleStyle);
+
+            labelVideo = game.add.text(positionVideo.x+8, positionVideo.y+1+browserFix, "Live Video Stream", titleStyle);
+            pictureVideo = game.add.sprite(positionVideo.x+1, positionVideo.y+23, 'picVideo');
 
           /* Dashboard stop/resume button */
             statusButton = game.add.button(positionSystem.x+10, positionSystem.y+33, 'statusButton', actionStopOnClick);
