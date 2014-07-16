@@ -99,21 +99,23 @@ body {
   overflow-y: auto; /* add vertical scroll bar if necessary */
   max-width: 250px;
   overflow-x: auto; /* add horizontal scroll bar if necessary */
+  border-radius: 0;
+  margin-left: -1px;
 }
 
 /* caret */
-.navbar-custom .navbar-nav > .dropdown > a .caret {
+.navbar-custom .navbar-header > .dropdown > a .caret {
     border-top-color: #F48E40;
     border-bottom-color: #F48E40;
 }
-.navbar-custom .navbar-nav > .dropdown > a:hover .caret,
-.navbar-custom .navbar-nav > .dropdown > a:focus .caret {
+.navbar-custom .navbar-header > .dropdown > a:hover .caret,
+.navbar-custom .navbar-header > .dropdown > a:focus .caret {
     border-top-color: #EA3669;
     border-bottom-color: #EA3669;
 }
-.navbar-custom .navbar-nav > .open > a .caret, 
-.navbar-custom .navbar-nav > .open > a:hover .caret, 
-.navbar-custom .navbar-nav > .open > a:focus .caret {
+.navbar-custom .navbar-header > .open > a .caret, 
+.navbar-custom .navbar-header > .open > a:hover .caret, 
+.navbar-custom .navbar-header > .open > a:focus .caret {
     border-top-color: #555;
     border-bottom-color: #555;
 }

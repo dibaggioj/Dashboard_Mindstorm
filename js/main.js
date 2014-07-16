@@ -18,21 +18,21 @@ function updateBar (progress, $element) {
 
 updateBar(24, $("#progressBar"));
 
+// global variables related to the game and states
 var client;
 var game;
 var restartState;
 var gameStates = {}
 
+// global bot variables stored in client's browser
 var botStore = { // client id (GUID) : bot name
     'fakeBotId1' : 'Fake Bot 1',
     'fakeBotId2' : 'Fake Bot 2'
 }
-
-var gameStates = {}
-
 var botId = "", botIndex = 0, botName = "";
 var bot = { nameDisplay : "" }
 
+// global functions
 var listenToBot;
 var getInitialTouchData;
 var setInitialTouchData;
@@ -43,7 +43,7 @@ var setInitialDashboardSettings;
 var displayName;
 var rearrangeDashboard;
 
-// resize html elements
+// resize html elements - responsive
 function adjustHtml ( newWidth, newHeight) {
     var newDimensions = {
         x : newWidth + 'px',
@@ -65,7 +65,7 @@ function adjustHtml ( newWidth, newHeight) {
     document.getElementById("repoButton").style.left = textEditButtons2;
     document.getElementById("repoButton").style.left = textEditButtons3;      
 }
-
+// add bots to drop down
 function appendDropdown( robotClientId ) {
   /* add a new html element to the dropdown menu for the new bot */
     var para = document.createElement( "li" ); // create list element
@@ -95,8 +95,7 @@ function appendDropdown( robotClientId ) {
         displayName( botName );
     });
 }
-
-// add bots to drop-down menu in navbar (here, it's just for bots that are declared in botStore - the fakebots)
+// add bots to drop-down menu in navbar (here, it's just for bots that are declared in botStore - our fakebots)
 for ( var k in botStore ) {
     appendDropdown( k );
 }
@@ -135,7 +134,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
     updateBar(59, $("#progressBar"));    
 
     function beginGame(client, channel) {
-
+        console.log(client.clientId());
         /* === Dashboard control panel === */
 
         var canvasWidth = document.getElementById('gameWorld').offsetWidth;
@@ -2046,28 +2045,21 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
 
         restartState = function () {
             console.log("Connection timeout. Reconnecting client and restarting dashboard state...");
+            // var client = new bigbang.client.BrowserBigBangClient();
             client.connectAnonymous("thegigabots.app.bigbang.io:80", function(result) {
                 if( result.success) {
                     client.subscribe("newBot", function( err, c) {
                         if(!err) {
-                            game.state.start('newState');
-                            // game.world.removeAll();
-                            // game.state.restart('MainScreen'); //restarts game state to the current state. This also works: game.state.start(game.state.current);
-                            // beginGame(client,c);
-                            // console.dir(c);
-                            // game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, "gameWorld", {
-                            //     preload: preload, 
-                            //     create: create,
-                            //     update: update,
-                            // }, true);
-
+                            game.state.restart('default');
+                            console.log(client.clientId());
+                             console.dir(c);
+                            console.log(botId);
                             botName = botStore[ botId ];
                             botIndex++;
                             listenToBot( botId, botIndex ); // start listening to the bot that was previously being used
-                            //getInitialTouchData( botId );
-                            //getInitialBatteryLevel( botId );
+                            getInitialTouchData( botId );
+                            getInitialBatteryLevel( botId );
                             setInitialDashboardSettings( botId );
-                            //var textDisplay = game.add.text(400, 20, "reconnected...", textStyles.data);                
                             console.log("Reconnected to bot " + botId + " with name " + botName);
                         }
                         else {
@@ -2079,8 +2071,8 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
                     console.log("RECONNECT FAILURE.");
                 }
             });
-
         }
+
 
         /* responsive stuff */
 
