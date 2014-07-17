@@ -200,7 +200,8 @@ body {
 	width: 100%;
 	height: 48px; /* Should be 10px less than bottom padding on content */
 	bottom: 0;
-  padding-left:10px;
+  padding-left:15px;
+  padding-right:15px;
 }
 .footer-text {
   padding-top: 14px;
