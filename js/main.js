@@ -122,7 +122,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
         if( result.success) {
             client.subscribe("newBot", function( err, c) {
                 if(!err) {
-                    beginGame(client,c);
+                    beginGame(c);
                     //console.dir(c);
                 }
                 else {
@@ -137,7 +137,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
 
     updateBar(59, $("#progressBar"));    
 
-    function beginGame(client, channel) {
+    function beginGame(channel) {
         console.log(client.clientId());
         console.log(channel);
         /* === Dashboard control panel === */
