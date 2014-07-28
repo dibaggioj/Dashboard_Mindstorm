@@ -85,7 +85,6 @@ body {
 #titleSmall:hover {
   color: #F8F8F8;
 }
-
 #poweredBy {
   margin-left: 32px;
 }
@@ -118,6 +117,20 @@ body {
 .navbar-custom .navbar-header > .open > a:focus .caret {
     border-top-color: #555;
     border-bottom-color: #555;
+}
+
+/* sign in and sign up */
+
+/*#signUpButton {
+  max-height: 32px;
+  margin-top: 11px;
+  padding-bottom: 5px;
+  border-radius: 3px;
+}*/
+
+#userGithub {
+  text-decoration: none;
+  padding-left: 20px;
 }
 
 /* mobile version */

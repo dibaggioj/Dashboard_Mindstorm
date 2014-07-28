@@ -113,6 +113,12 @@
     left: -webkit-calc(50% - 566px);
     left: calc(50% - 566px);*/
 }
+#saveButton {
+	font-size: 12px;
+    left: -moz-calc(50% - 566px);
+    left: -webkit-calc(50% - 566px);
+    left: calc(50% - 566px);*/
+}
 #repoButton {
 	font-size: 12px;
 	left: -moz-calc(50% - 566px);
