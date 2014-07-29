@@ -72,7 +72,7 @@ body {
 }
 
 #titleLarge {
-  margin-right: 22px;
+  margin-right: 4px;
 }
 #titleSmall {
   font-size: 19px;
@@ -90,8 +90,26 @@ body {
 }
 #botSelector {
   color: #BCBCBC;
+  padding-top: 1px;
+  margin-top: 1px;
+  max-height: 51px;
+  /*background-color: #EA3669;*/
+  background-image: -webkit-linear-gradient(top, #c44a73 0%, #bb275e 100%);
+  background-image: linear-gradient(to bottom, #c44a73 0%, #bb275e 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffc44a73', endColorstr='#ffbb275e', GradientType=0);
+}
+#botSelector:hover,
+#botSelector:focus {
+  color: #282828;
   padding-top: 2px;
+  margin-top: 0px;
   max-height: 53px;
+  /*background-color: #E7E7E7;*/
+  background-image: -webkit-linear-gradient(top, #E7E7E7 0%, #E7E7E7 100%);
+  background-image: linear-gradient(to bottom, #E7E7E7 0%, #E7E7E7 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffE7E7E7', endColorstr='#ffE7E7E7', GradientType=0);
 }
 #botSelectorList {
   max-height: 500px;

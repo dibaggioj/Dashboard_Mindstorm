@@ -1,4 +1,7 @@
 $('#signIn').click(function() {
+
+	console.log("sign user in");
+
 	// // Set provider equal to github
 	// var provider = 'github';
 
@@ -89,6 +92,7 @@ OAuth.popup(provider)
 	    parent.removeChild( child ); // remove sign in link
 	    var para = document.createElement( "li" ); // create list element
 	    para.setAttribute( "class", "dropdown" );
+	    para.setAttribute("id","signDropdown");
 
 	    var para2 = document.createElement( "a" );
 	    para2.setAttribute( "class", "dropdown-toggle" );
@@ -144,8 +148,27 @@ OAuth.popup(provider)
 
 	    $("#userDropdown").css('cursor', 'pointer');
 	    $("#userSignOut").css('cursor', 'pointer');
+
+	    // user sign out
+	    $('#userSignOut').click(function() {
+			var parent = document.getElementById( "navbarLinks" );
+			var child = document.getElementById("signDropdown");
+			parent.removeChild(child);
+			//<li id="signIn"><a href="">Sign In</a></li>
+			var para = document.createElement( "li" );
+			para.setAttribute( "id", "signIn" );
+			var para2 = document.createElement( "a" );
+			var node2 = document.createTextNode( "Sign In" );
+			para2.appendChild( node2 );
+			para.appendChild( para2 );
+			var para3 = document.getElementById( "directions" );
+			parent.insertBefore( para, para3 );
+
+			// need to actually sign user out too...
+
+		});
 	    
-	    })
+	})
 
     .fail(function (err) {
         //handle error with err
@@ -238,5 +261,14 @@ OAuth.popup(provider)
 // 	}
 // 	console.log("result");
 // 	console.log(result); // do something with result
+// });
+
+
+// $('#userSignOut').click(function() {
+// 	console.log("remove");
+// 	var parent = document.getElementById( "navbarLinks" );
+// 	var child = document.getElementById("signDropdown");
+// 	parent.removeChild(child);
+
 // });
 
