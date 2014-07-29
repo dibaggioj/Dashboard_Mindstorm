@@ -88,16 +88,14 @@ OAuth.popup(provider)
 	    para2.setAttribute( "class", "dropdown-toggle" );
 	    para2.setAttribute( "data-toggle", "dropdown" );
 	    para2.setAttribute( "id", "userDropdown" );
-	    para2.setAttribute( "title", "User sign-in and sign-out" );
+	    para2.setAttribute( "title", "User Sign-in and Sign-out" );
 	    var node = document.createTextNode( response.name + " " );
 	    para2.appendChild( node );
 	    var nodePic = document.createElement( "img" );
 	    nodePic.setAttribute( "style", "max-height:28px; margin-top: -8px; margin-right:10px" );
+	    nodePic.setAttribute( "class", "img-rounded")
 	    nodePic.setAttribute( "src", response.avatar );
 	    para2.insertBefore(nodePic,node);
-
-
-// img style="max-height:48px; margin-top: -12px;" src="assets/gigabots_dashboard_logo_on_dark.png" alt="Gigabots Dashboard"
 
 
 	    var para0 = document.createElement( "span" );
@@ -138,16 +136,10 @@ OAuth.popup(provider)
 	    var directions = document.getElementById( "directions" );
 	    parent.insertBefore(para,directions);
 	    //parent.appendChild( para );
+
+	    $("#userDropdown").css('cursor', 'pointer');
+	    
 	    })
-
-	   //    	<li class="dropdown">
-				// <a class="dropdown-toggle" id="botSelector" data-toggle="dropdown" title="Control a Currently Connected Gigabot">Select Gigabot <span class="caret"></span></a>
-				// <ul class="dropdown-menu" id="botSelectorList">
-	   //          <li class="divider" id="dropdownDivider"></li>
-	   //          <li><a id="addBot">Add a New Bot</a></li>
-		  //       </ul>
-	   //    	</li>
-
 
     .fail(function (err) {
         //handle error with err
