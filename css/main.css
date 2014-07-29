@@ -102,6 +102,22 @@ body {
   margin-left: -1px;
 }
 
+/* sign in and sign up */
+#userDropdownList {
+  margin-right: -1px;
+  border-radius: 0;
+}
+#userGithub {
+  text-decoration: none;
+  padding-left: 20px;
+}
+/*#signUpButton {
+  max-height: 32px;
+  margin-top: 11px;
+  padding-bottom: 5px;
+  border-radius: 3px;
+}*/
+
 /* caret */
 .navbar-custom .navbar-header > .dropdown > a .caret {
     border-top-color: #F48E40;
@@ -118,21 +134,6 @@ body {
     border-top-color: #555;
     border-bottom-color: #555;
 }
-
-/* sign in and sign up */
-
-/*#signUpButton {
-  max-height: 32px;
-  margin-top: 11px;
-  padding-bottom: 5px;
-  border-radius: 3px;
-}*/
-
-#userGithub {
-  text-decoration: none;
-  padding-left: 20px;
-}
-
 /* mobile version */
 .navbar-custom .navbar-toggle {
     border-color: #1F1F1F;

@@ -1,51 +1,51 @@
 $('#signIn').click(function() {
-	// Set provider equal to github
-	var provider = 'github';
+	// // Set provider equal to github
+	// var provider = 'github';
 
-	// Initialize with your OAuth.io app public key
-	OAuth.initialize('X4CpCU8h86NObiHdtI1jOJ2YZM8');
+	// // Initialize with your OAuth.io app public key
+	// OAuth.initialize('X4CpCU8h86NObiHdtI1jOJ2YZM8');
 
-	// callback_url is the URL where users are redirected
-	// after being authorized
-	//OAuth.redirect(provider, 'https://oauth.io/auth');
+	// // callback_url is the URL where users are redirected
+	// // after being authorized
+	// //OAuth.redirect(provider, 'https://oauth.io/auth');
 
-	OAuth.popup(provider, function(error, result){
-	  // handle error
-	  if (error) {
-	  	console.log(err);
-	  	return;
-	  }
-	  // See the result below
-	  // console.dir(result);
+	// OAuth.popup(provider, function(error, result){
+	//   // handle error
+	//   if (error) {
+	//   	console.log(err);
+	//   	return;
+	//   }
+	//   // See the result below
+	//   // console.dir(result);
 
-	});
+	// });
 
-	OAuth.popup(provider)
-	.done(function(result) {
-	    result.me()
-	    .done(function (response) {
-	    	console.dir(response);
-	        // console.log('Username: ', response.alias);
-	        // console.log('Name: ', response.name);
-	        // console.log('Email: ', response.email);
-	    })
-	    .fail(function (err) {
-	        //handle error with err
-	    });
-	})
-	.fail(function (err) {
-	    //handle error with err
-	});
+	// OAuth.popup(provider)
+	// .done(function(result) {
+	//     result.me()
+	//     .done(function (response) {
+	//     	console.dir(response);
+	//         // console.log('Username: ', response.alias);
+	//         // console.log('Name: ', response.name);
+	//         // console.log('Email: ', response.email);
+	//     })
+	//     .fail(function (err) {
+	//         //handle error with err
+	//     });
+	// })
+	// .fail(function (err) {
+	//     //handle error with err
+	// });
 
-    var parent = document.getElementById( "navbarLinks" );
-    var child = document.getElementById( "signIn" );
-    parent.removeChild( child ); // remove sign in link
-    var para = document.createElement( "li" ); // create list element
-    var node = document.createTextNode( response.name );
-    para.setAttribute( "class", "dropdown" );
-    para.setAttribute( "id", "userDropdown" );
-    para.appendChild( node );
-    parent.appendChild( para );
+ //    var parent = document.getElementById( "navbarLinks" );
+ //    var child = document.getElementById( "signIn" );
+ //    parent.removeChild( child ); // remove sign in link
+ //    var para = document.createElement( "li" ); // create list element
+ //    var node = document.createTextNode( response.name );
+ //    para.setAttribute( "class", "dropdown" );
+ //    para.setAttribute( "id", "userDropdown" );
+ //    para.appendChild( node );
+ //    parent.appendChild( para );
 
 });
 
@@ -70,14 +70,20 @@ OAuth.popup(provider, function(error, result){
 
 });
 
+var github;
+
 OAuth.popup(provider)
 .done(function(result) {
     result.me()
     .done(function (response) {
+    	console.dir(result);
     	console.dir(response);
-        // console.log('Username: ', response.alias);
-        // console.log('Name: ', response.name);
-        // console.log('Email: ', response.email);
+
+    	github = new Github({
+    		token : result.access_token,
+    		auth: "oauth"
+    	});
+
     	var parent = document.getElementById( "navbarLinks" );
 	    var child = document.getElementById( "signIn" );
 	    parent.removeChild( child ); // remove sign in link
@@ -89,14 +95,13 @@ OAuth.popup(provider)
 	    para2.setAttribute( "data-toggle", "dropdown" );
 	    para2.setAttribute( "id", "userDropdown" );
 	    para2.setAttribute( "title", "User Sign-in and Sign-out" );
-	    var node = document.createTextNode( response.name + " " );
+	    var node = document.createTextNode( response.alias + " " );
 	    para2.appendChild( node );
 	    var nodePic = document.createElement( "img" );
-	    nodePic.setAttribute( "style", "max-height:28px; margin-top: -8px; margin-right:10px" );
+	    nodePic.setAttribute( "style", "max-height:28px; margin-top: -5px; margin-right:8px" );
 	    nodePic.setAttribute( "class", "img-rounded")
 	    nodePic.setAttribute( "src", response.avatar );
 	    para2.insertBefore(nodePic,node);
-
 
 	    var para0 = document.createElement( "span" );
 	    para0.setAttribute("class", "caret");
@@ -138,6 +143,7 @@ OAuth.popup(provider)
 	    //parent.appendChild( para );
 
 	    $("#userDropdown").css('cursor', 'pointer');
+	    $("#userSignOut").css('cursor', 'pointer');
 	    
 	    })
 
