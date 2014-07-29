@@ -91,6 +91,14 @@ OAuth.popup(provider)
 	    para2.setAttribute( "title", "User sign-in and sign-out" );
 	    var node = document.createTextNode( response.name + " " );
 	    para2.appendChild( node );
+	    var nodePic = document.createElement( "img" );
+	    nodePic.setAttribute( "style", "max-height:28px; margin-top: -8px; margin-right:10px" );
+	    nodePic.setAttribute( "src", response.avatar );
+	    para2.insertBefore(nodePic,node);
+
+
+// img style="max-height:48px; margin-top: -12px;" src="assets/gigabots_dashboard_logo_on_dark.png" alt="Gigabots Dashboard"
+
 
 	    var para0 = document.createElement( "span" );
 	    para0.setAttribute("class", "caret");
