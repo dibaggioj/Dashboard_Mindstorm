@@ -77,7 +77,7 @@ var github;
 
 OAuth.popup(provider)
 .done(function(result) {
-    result.me()
+    result.me() // this signs the user in to github.com too (if not already signed-in)
     .done(function (response) {
     	console.dir(result);
     	console.dir(response);
@@ -164,7 +164,22 @@ OAuth.popup(provider)
 			var para3 = document.getElementById( "directions" );
 			parent.insertBefore( para, para3 );
 
-			// need to actually sign user out too...
+			// DELETE me request to "uninstall" the app from the user's account, keeping the user signed-in to github.com
+			OAuth.popup(provider)
+			.done(function(result) {
+			    result.del(result.me) //delete
+			    .done(function (response) {
+			        //this will display true if the user was authorized to delete
+			        //the picture
+			        console.log(response);
+			    })
+			    .fail(function (err) {
+			        //handle error with err
+			    });
+			})
+			.fail(function (err) {
+			    //handle error with err
+			});
 
 		});
 	    
