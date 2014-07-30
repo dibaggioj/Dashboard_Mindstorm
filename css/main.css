@@ -109,8 +109,18 @@ body {
   background-image: -webkit-linear-gradient(top, #E7E7E7 0%, #E7E7E7 100%);
   background-image: linear-gradient(to bottom, #E7E7E7 0%, #E7E7E7 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffE7E7E7', endColorstr='#ffE7E7E7', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe7e7e7', endColorstr='#ffe7e7e7', GradientType=0);
 }
+
+/*.navbar-custom .navbar-header > .dropdown > .open > a, 
+.navbar-custom .navbar-header > .dropdown > .open > a:hover, 
+.navbar-custom .navbar-header > .dropdown > .open > a:focus {
+  background-image: -webkit-linear-gradient(top, #D5D5D5 0%, #D5D5D5 100%);
+  background-image: linear-gradient(to bottom, #D5D5D5 0%, #D5D5D5 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd5d5d5', endColorstr='#ffd5d5d5', GradientType=0);
+}*/
+
 #botSelectorList {
   max-height: 500px;
   overflow-y: auto; /* add vertical scroll bar if necessary */
@@ -173,6 +183,9 @@ body {
     }
 }
 @media (max-width: 931px) {
+  #titleLarge {
+    margin-right: 12px;
+  }
   #poweredBy {
     display: none;
   }

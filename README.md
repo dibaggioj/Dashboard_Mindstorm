@@ -9,14 +9,11 @@ Version 1.2.1 - Released July 10th, 2014
 * Follow on [Twitter] (https://twitter.com/TheGigabots)
 * Join developers on [Github] (#)
 
-![div](http://thegigabots.com/wp-content/uploads/2014/04/hello_gigabot.jpg)
-
+![div](http://thegigabots.com/wp-content/uploads/2014/07/gigabots_dashboard_newest.png)
 
 #Instructions for Use
 
-Use the web app with a Mindstorm robot running the leJOS firmware with the Big Bang Client for Java and custom Gigabot-specific code. The web app uses the Big Bang Client for JavaScript. The custom Gigabot firmware contains a basic API to allow users to program the Gigabot in realtime from a REPL/console in the web app.
-
-
+Use the web app with a Mindstorm robot running the leJOS firmware with the Big Bang Client for Java and custom Gigabot-specific code. The web app uses the Big Bang Client for JavaScript. The custom Gigabot firmware contains a basic API to allow users to program the Gigabot remotely in realtime from a console-based text editor / REPL in the web app.
 
 # Phaser
 The main.js file utilizes the [Phaser Framework] (www.phaser.io). Phaser is intended for multiplay 2D online game creation. This was chosen primarily because it utilizes an fast and efficient refresh rate, rendering realtime data communication in Big Bang in a smooth manner. The entire dashboard panel is placed in a <canvas> element. For this reason, no individual component within the canvas can be altered through CSS or jQuery, beacuse each relies on identification of classes or id's. Thus, all stylistic effects for buttons, fonts, colors, are controlled within the main.js file preceding the state definitions.
@@ -25,3 +22,7 @@ A Phaser Framework relies on a succession of different states to create the dash
 * Preload - Loads the necessary assets to be used in the dashboard. Primarily, this is in the form of images, such as the background, and sprites.
 * Create - Called immediately following the preload state. Instantiates the initial dashboard panel using preloaded assets. Visually renders front-end. Defines necessary functionality and interactivity. Functions within only called when change in variable state occurs (ie. button is clicked. Different from update function, which calls at 60Hz regardless of if there's a change.)
 * Update - Called immediately following the create state. Loops through around 60 times a second. Handles channels and bot keyspaces s.t. realtime information passed through channels to keyspaces and updated. Runs at 60Hertz regardless of change in any variable/states/values.
+
+#The Gigabots
+
+![div](http://thegigabots.com/wp-content/uploads/2014/04/hello_gigabot.jpg)

@@ -62,16 +62,16 @@ OAuth.initialize('X4CpCU8h86NObiHdtI1jOJ2YZM8');
 // after being authorized
 //OAuth.redirect(provider, 'https://oauth.io/auth');
 
-OAuth.popup(provider, function(error, result){
-  // handle error
-  if (error) {
-  	console.log(err);
-  	return;
-  }
-  // See the result below
-  // console.dir(result);
+// OAuth.popup(provider, function(error, result){
+//   // handle error
+//   if (error) {
+//   	console.log(err);
+//   	return;
+//   }
+//   // See the result below
+//   // console.dir(result);
 
-});
+// });
 
 var github;
 
