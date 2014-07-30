@@ -105,7 +105,7 @@ OAuth.popup(provider)
 	    nodePic.setAttribute( "style", "max-height:28px; margin-top: -5px; margin-right:8px" );
 	    nodePic.setAttribute( "class", "img-rounded")
 	    nodePic.setAttribute( "src", response.avatar );
-	    para2.insertBefore(nodePic,node);
+	    para2.insertBefore( nodePic, node );
 
 	    var para0 = document.createElement( "span" );
 	    para0.setAttribute("class", "caret");
@@ -120,9 +120,9 @@ OAuth.popup(provider)
 	   	var para5 = document.createElement( "a" );
 	   	para5.setAttribute( "id", "userSignOut" );
 	   	var node5 = document.createTextNode( "Sign out" );
-	    para5.appendChild(node5);
+	    para5.appendChild( node5 );
 	    
-	    para4.appendChild(para5);
+	    para4.appendChild( para5 );
 
 	    var para6 = document.createElement( "li" );
 
@@ -133,9 +133,9 @@ OAuth.popup(provider)
 	    para7.setAttribute( "href", githubUserUrl );
 	    para7.setAttribute( "target", "_blank" );
 	    var node7 = document.createTextNode( "My GitHub Profile" );
-	    para7.appendChild(node7);
-	    para6.appendChild(para7);
-	    para4.insertBefore(para6,para5);
+	    para7.appendChild( node7 );
+	    para6.appendChild( para7 );
+	    para4.insertBefore( para6, para5 );
 
 	   	para3.appendChild(para4);
 
@@ -143,7 +143,7 @@ OAuth.popup(provider)
 
 	    para.appendChild( para2 );
 	    var directions = document.getElementById( "directions" );
-	    parent.insertBefore(para,directions);
+	    parent.insertBefore( para, directions );
 	    //parent.appendChild( para );
 
 	    $("#userDropdown").css('cursor', 'pointer');

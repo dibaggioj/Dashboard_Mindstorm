@@ -94,10 +94,10 @@ body {
   margin-top: 1px;
   max-height: 51px;
   /*background-color: #EA3669;*/
-  background-image: -webkit-linear-gradient(top, #c44a73 0%, #bb275e 100%);
-  background-image: linear-gradient(to bottom, #c44a73 0%, #bb275e 100%);
+  background-image: -webkit-linear-gradient(top, #313131 0%, #242424 100%);
+  background-image: linear-gradient(to bottom, #313131 0%, #242424 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffc44a73', endColorstr='#ffbb275e', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff242424', endColorstr='#ff313131', GradientType=0);
 }
 #botSelector:hover,
 #botSelector:focus {
