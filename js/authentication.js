@@ -74,6 +74,7 @@ OAuth.initialize('X4CpCU8h86NObiHdtI1jOJ2YZM8');
 // });
 
 var github;
+var writeToRepo;
 
 OAuth.popup(provider)
 .done(function(result) {
@@ -149,6 +150,34 @@ OAuth.popup(provider)
 	    $("#userDropdown").css('cursor', 'pointer');
 	    $("#userSignOut").css('cursor', 'pointer');
 
+
+
+	 //    var repo = github.getRepo(response.alias, 'first_repo');
+
+	 //    console.dir(repo);
+	 //    console.dir(response);
+
+		// //Show repository information
+
+		// repo.show(function(err, repo) {
+
+		// });
+
+
+		writeToRepo = function(path, contents, message) {
+			//Store contents at a certain path, where files that don't yet exist are created on the fly.
+			// repo.write('master', 'path/to/file', 'YOUR_NEW_CONTENTS', 'YOUR_COMMIT_MESSAGE', function(err) {});
+			
+			var repo = github.getRepo('GigaBots', 'text_editor_code');
+			console.dir(repo);
+
+			console.log(path + " " + contents + " " + message + " ");
+			repo.write('master', path, contents, 'message', function(err) {});
+
+		}
+
+
+
 	    // user sign out
 	    $('#userSignOut').click(function() {
 			var parent = document.getElementById( "navbarLinks" );
@@ -163,6 +192,7 @@ OAuth.popup(provider)
 			para.appendChild( para2 );
 			var para3 = document.getElementById( "directions" );
 			parent.insertBefore( para, para3 );
+			$("#signIn").css('cursor', 'pointer');
 
 			// DELETE me request to "uninstall" the app from the user's account, keeping the user signed-in to github.com
 			OAuth.popup(provider)
@@ -170,7 +200,6 @@ OAuth.popup(provider)
 			    result.del(result.me) //delete
 			    .done(function (response) {
 			        //this will display true if the user was authorized to delete
-			        //the picture
 			        console.log(response);
 			    })
 			    .fail(function (err) {

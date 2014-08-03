@@ -2290,6 +2290,16 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
 
         } // end .onclick
 
+        // write to Gigabots text_editor_code repo when the "Save Code" button is clicked
+        document.getElementById("saveButton").onclick = function() {
+            var newFileName = prompt('Enter a file name for your new code');
+            // **** we'll need to check if that name already exists, so we don't add stuff to that existing file
+
+            var path = 'https://github.com/GigaBots/text_editor_code/blob/master/' + newFileName;
+            var contents = prompt('Your new contents');
+            var message = prompt('Your new message');
+            writeToRepo( path, contents, message );
+        }
 
         function consoleAppend( msg ) {
             $( ".previousCode" ).append( '<div style="text-align:left; color:orange; margin:0;">' + msg  +  '</div>');
