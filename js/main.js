@@ -112,11 +112,8 @@ require.config({
     }
 });
 require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
-    console.dir(bigbang);
-    console.dir(client);
 
     client = new bigbang.client.BrowserBigBangClient();
-    console.dir(client);
     client.connectAnonymous("thegigabots.app.bigbang.io:80", function(result) {
         if( result.success) {
             client.subscribe("newBot", function( err, c) {
