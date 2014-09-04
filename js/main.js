@@ -371,9 +371,9 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
             //var heightMax = Math.max( heightMotors, heightGangs, heightSensors );
             if ( heightMax + 2 !== canvasHeight ) canvasHeight = heightMax + 2; // set new canvas height to be eqaul to 
             for ( var i = 1; i <= numGangs; i++ ) {
-                positionGangs[ i ] = { x : 856, y : 1 + ( i - 1 ) * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) } // rightmost column position
+                positionGangs[ i ] = { x : 856, y : 161 + ( i - 1 ) * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) } // rightmost column position
             }
-
+            console.log(heightGangs);
             canvasHeight = 664;
             canvasWidth = 1132;
             adjustHtml( canvasWidth, canvasHeight );
@@ -696,7 +696,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
         }
 
         /* System info */
-        var positionSystem = { x : 1, y : 2 }
+        var positionSystem = { x : 1, y : 1 }
 
         /* Touch sensor */
         var positionTouch = { x : 1, y : 96 }
@@ -738,6 +738,9 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
         // var positionScreen = { x : 1, y : 430 }
         // var labelScreen, LCDScreenBox;
         // var screenMessage = { messageDisplay1 : "", messageDisplay2 : "", messageDisplay3 : "", messageDisplay4 : "" }
+
+        /* User control queue */
+        var positionControl = { x : 856, y : 1 }
 
         /* Button for testing */
         var getKeyspaceButton;
@@ -1203,6 +1206,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
             frames[ 'IR' ] = new Frame( game, 'IR', positionIR.x, positionIR.y, 275, 60);
             frames[ 'ultrasonic' ] = new Frame( game, 'ultrasonic', positionUltrasonic.x, positionUltrasonic.y, 275, 60);
             //frames[ 'screen' ] = new Frame( game, 'screen', positionScreen.x, positionScreen.y, 275, 99);
+            frames[ 'control'] = new Frame( game, 'control', positionControl.x, positionControl.y, 275, 150 );
 
           /* Top Bars */
             topBars[ 'system' ] = game.add.sprite( positionSystem.x+1, positionSystem.y+1,'sensorBar');
