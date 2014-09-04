@@ -47,7 +47,7 @@
     width: 562px;
     height: 421px;
     display: block;
-    margin: -664px auto auto auto;
+    margin: -663px auto auto auto;
     position: relative;
     text-align: center;
     border-radius: 1px;
@@ -71,7 +71,7 @@
 	border-style: solid;
 	border-width: 2px;
 	border-color: #6f6f6f;
-	margin: 250px auto -0 auto; /* moved down 664px because of relative positioning below video canvas*/
+	margin: 249px auto -0 auto; /* gap for relative positioning below video canvas, with motor boxes in between */
 	/*margin: 8px auto -0 auto;*/
 	font-size: 12px;
 	position: relative;

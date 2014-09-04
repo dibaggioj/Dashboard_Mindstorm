@@ -139,7 +139,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
         /* === Dashboard control panel === */
 
         var canvasWidth = document.getElementById('gameWorld').offsetWidth;
-        var canvasHeight = 664;
+        var canvasHeight = 663;
         //var canvasWidth = 1132, canvasHeight = 530;
         
         game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, "gameWorld", {
@@ -244,7 +244,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
         // set motor frame positions
         if ( maxMotorRows === 1 ) {
             for ( var j = 1; j <= maxMotorColumns; j++ ) {
-                positionMotors[ letters[ j ] ] = { x : 1 + (j-1)*285, y : 431 }
+                positionMotors[ letters[ j ] ] = { x : 1 + (j-1)*285, y : 430 }
             }            
         }
         else {
@@ -374,7 +374,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
                 positionGangs[ i ] = { x : 856, y : 161 + ( i - 1 ) * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) } // rightmost column position
             }
             console.log(heightGangs);
-            canvasHeight = 664;
+            canvasHeight = 663;
             canvasWidth = 1132;
             adjustHtml( canvasWidth, canvasHeight );
         }
