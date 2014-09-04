@@ -42,6 +42,7 @@ var setSensorIDs;
 var setInitialDashboardSettings;
 var displayName;
 var rearrangeDashboard;
+var rearrangeVideoDashboard;
 
 // resize html elements - responsive
 function adjustHtml ( newWidth, newHeight) {
@@ -138,7 +139,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
         /* === Dashboard control panel === */
 
         var canvasWidth = document.getElementById('gameWorld').offsetWidth;
-        var canvasHeight = 530;
+        var canvasHeight = 664;
         //var canvasWidth = 1132, canvasHeight = 530;
         
         game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, "gameWorld", {
@@ -227,7 +228,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
 
         // Specify the number of motors
         var numMotors = 4; //specify # of motors (for now, it must be no more than 26 )
-        var motorColumns = 2, motorRows = ''; //specify either # of columns or # of rows (NOT both!) 
+        var motorColumns = '', motorRows = 1; //specify either # of columns or # of rows (NOT both!) 
         var motorHeight = 232; // height of a motor box
 
         /* Motor positions */
@@ -243,7 +244,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
         // set motor frame positions
         if ( maxMotorRows === 1 ) {
             for ( var j = 1; j <= maxMotorColumns; j++ ) {
-                positionMotors[ letters[ j ] ] = { x : 286 + (j-1)*285, y : 1 }
+                positionMotors[ letters[ j ] ] = { x : 1 + (j-1)*285, y : 431 }
             }            
         }
         else {
@@ -291,7 +292,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
         }
 
         // Specify the number of gangs
-        var numGangs = 2; // specify number of gangs
+        var numGangs = 1; // specify number of gangs
         var gangColumns = 1, gangRows = ''; // default value
         var gangHeightMin = 231;
 
@@ -300,65 +301,84 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
         var positionGangs = {}
         var col = 4; // just a default, to prevent error in case window width isn't found
 
-        rearrangeDashboard = function () {
+        // rearrangeDashboard = function () {
 
-            var size = {
-                width : $window.width(),
-                height : $window.height()
-            }
-            // knowing the window width, determine how wide canvas should be and set the number of columns in the dashboard accordingly
-            if ( size.width >= 1132 ) {
-                canvasWidth = 1132; // 4 columns
-                col = 4; // total # columns in dashboard
-            } 
-            else if ( size.width <= 562 ) {
-                canvasWidth = 562; // 2 columns
-                col = 2;
-            }
-            else {
-                canvasWidth = 847; // 3 columns
-                col = 3;
-            }
-            if ( col === 4 ) {
-                gangColumns = 1; //make 1 columns of gangs, which will be the rightmost columns
-                gangRows = Math.ceil( numGangs / gangColumns );
-                var heightMotors = maxMotorRows * ( motorHeight + 10 ) - 10; // total height of motors 
-                var heightGangs = gangRows * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) - 10; // total height of gangs
-                //var heightSensors = ; // total height of sensors
-                var heightMax = Math.max( heightMotors, heightGangs );
-                //var heightMax = Math.max( heightMotors, heightGangs, heightSensors );
-                if ( heightMax + 2 !== canvasHeight ) canvasHeight = heightMax + 2; // set new canvas height to be eqaul to 
-                for ( var i = 1; i <= numGangs; i++ ) {
-                    positionGangs[ i ] = { x : 856, y : 1 + ( i - 1 ) * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) } // rightmost column position
-                }
-            }
-            else if ( col === 3 ) {
-                gangColumns = 2; // make 2 columns of gangs, placed next to sensors, and under motors
-                gangRows = Math.ceil( numGangs / gangColumns );
-                canvasHeight = 2 + maxMotorRows * ( motorHeight + 10 ) + gangRows * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) - 10;
-                for ( var r = 1; r <= gangRows; r++ ) { 
-                    for ( var c = 1; c <= gangColumns; c++ ) {
-                        if ( c === 1 ) var j = c + 1 + (r - 1)/r;
-                        else var j = c + 1;
-                        var i = j * r - r;
-                        if ( i > numGangs ) break;
-                        positionGangs[ i ] = { x : 286 + (c-1)*285 , y : 1 + maxMotorRows * ( motorHeight + 10 ) + (r-1) * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) }
-                    } // this sequence positions gangs (laid out in two-column a grid)
-                }
-            }
-            else if ( col === 2 ) {
-                /*
-                * TODO
-                */
-            }
-            if ( typeof game !== "undefined" ) {
-                game.height = canvasHeight;
-                game.width = canvasWidth;
+        //     var size = {
+        //         width : $window.width(),
+        //         height : $window.height()
+        //     }
+        //     // knowing the window width, determine how wide canvas should be and set the number of columns in the dashboard accordingly
+        //     if ( size.width >= 1132 ) {
+        //         canvasWidth = 1132; // 4 columns
+        //         col = 4; // total # columns in dashboard
+        //     } 
+        //     else if ( size.width <= 562 ) {
+        //         canvasWidth = 562; // 2 columns
+        //         col = 2;
+        //     }
+        //     else {
+        //         canvasWidth = 847; // 3 columns
+        //         col = 3;
+        //     }
+        //     if ( col === 4 ) {
+        //         gangColumns = 1; //make 1 columns of gangs, which will be the rightmost columns
+        //         gangRows = Math.ceil( numGangs / gangColumns );
+        //         var heightMotors = maxMotorRows * ( motorHeight + 10 ) - 10; // total height of motors 
+        //         var heightGangs = gangRows * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) - 10; // total height of gangs
+        //         //var heightSensors = ; // total height of sensors
+        //         var heightMax = Math.max( heightMotors, heightGangs );
+        //         //var heightMax = Math.max( heightMotors, heightGangs, heightSensors );
+        //         if ( heightMax + 2 !== canvasHeight ) canvasHeight = heightMax + 2; // set new canvas height to be eqaul to 
+        //         for ( var i = 1; i <= numGangs; i++ ) {
+        //             positionGangs[ i ] = { x : 856, y : 1 + ( i - 1 ) * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) } // rightmost column position
+        //         }
+        //     }
+        //     else if ( col === 3 ) {
+        //         gangColumns = 2; // make 2 columns of gangs, placed next to sensors, and under motors
+        //         gangRows = Math.ceil( numGangs / gangColumns );
+        //         canvasHeight = 2 + maxMotorRows * ( motorHeight + 10 ) + gangRows * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) - 10;
+        //         for ( var r = 1; r <= gangRows; r++ ) { 
+        //             for ( var c = 1; c <= gangColumns; c++ ) {
+        //                 if ( c === 1 ) var j = c + 1 + (r - 1)/r;
+        //                 else var j = c + 1;
+        //                 var i = j * r - r;
+        //                 if ( i > numGangs ) break;
+        //                 positionGangs[ i ] = { x : 286 + (c-1)*285 , y : 1 + maxMotorRows * ( motorHeight + 10 ) + (r-1) * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) }
+        //             } // this sequence positions gangs (laid out in two-column a grid)
+        //         }
+        //     }
+        //     else if ( col === 2 ) {
+        //         /*
+        //         * TODO
+        //         */
+        //     }
+        //     if ( typeof game !== "undefined" ) {
+        //         game.height = canvasHeight;
+        //         game.width = canvasWidth;
+        //     }
+        //     adjustHtml( canvasWidth, canvasHeight );
+        // }
+        // rearrangeDashboard();
+
+        rearrangeVideoDashboard = function () {
+
+            gangColumns = 1; //make 1 columns of gangs, which will be the rightmost columns
+            gangRows = Math.ceil( numGangs / gangColumns );
+            var heightMotors = maxMotorRows * ( motorHeight + 10 ) - 10; // total height of motors 
+            var heightGangs = gangRows * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) - 10; // total height of gangs
+            //var heightSensors = ; // total height of sensors
+            var heightMax = Math.max( heightMotors, heightGangs );
+            //var heightMax = Math.max( heightMotors, heightGangs, heightSensors );
+            if ( heightMax + 2 !== canvasHeight ) canvasHeight = heightMax + 2; // set new canvas height to be eqaul to 
+            for ( var i = 1; i <= numGangs; i++ ) {
+                positionGangs[ i ] = { x : 856, y : 1 + ( i - 1 ) * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) } // rightmost column position
             }
 
+            canvasHeight = 664;
+            canvasWidth = 1132;
             adjustHtml( canvasWidth, canvasHeight );
         }
-        rearrangeDashboard();
+        rearrangeVideoDashboard();
 
 
         /* Motor object */
@@ -715,9 +735,9 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
             levelDisplay : 1
         }
         /* LCD Screen */
-        var positionScreen = { x : 1, y : 430 }
-        var labelScreen, LCDScreenBox;
-        var screenMessage = { messageDisplay1 : "", messageDisplay2 : "", messageDisplay3 : "", messageDisplay4 : "" }
+        // var positionScreen = { x : 1, y : 430 }
+        // var labelScreen, LCDScreenBox;
+        // var screenMessage = { messageDisplay1 : "", messageDisplay2 : "", messageDisplay3 : "", messageDisplay4 : "" }
 
         /* Button for testing */
         var getKeyspaceButton;
@@ -1141,7 +1161,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
             game.load.spritesheet('touchIndicator','assets/touch_sensor_spritesheet.png', 21, 21);
             game.load.spritesheet('statusButton','assets/buttons/status_button_spritesheet.png', 76, 32);
             game.load.spritesheet('dialFace','assets/dial_face_spritesheet.png', 52, 52);
-            game.load.spritesheet('screenInputButton', 'assets/buttons/lcd_screen_input_button_spritesheet.png', 56, 32);
+            //game.load.spritesheet('screenInputButton', 'assets/buttons/lcd_screen_input_button_spritesheet.png', 56, 32);
             game.load.spritesheet('colorOutput', 'assets/color_output_spritesheet.png', 59, 20);
             game.load.image('sliderBar','assets/buttons/slider_bar.png', 72, 24);
             game.load.image('sliderBar2','assets/buttons/slider_bar_2.png', 72, 24);
@@ -1182,7 +1202,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
             frames[ 'color' ] = new Frame( game, 'color', positionColor.x, positionColor.y, 275, 88);
             frames[ 'IR' ] = new Frame( game, 'IR', positionIR.x, positionIR.y, 275, 60);
             frames[ 'ultrasonic' ] = new Frame( game, 'ultrasonic', positionUltrasonic.x, positionUltrasonic.y, 275, 60);
-            frames[ 'screen' ] = new Frame( game, 'screen', positionScreen.x, positionScreen.y, 275, 99);
+            //frames[ 'screen' ] = new Frame( game, 'screen', positionScreen.x, positionScreen.y, 275, 99);
 
           /* Top Bars */
             topBars[ 'system' ] = game.add.sprite( positionSystem.x+1, positionSystem.y+1,'sensorBar');
@@ -1190,7 +1210,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
             topBars[ 'color' ] = game.add.sprite( positionColor.x+1, positionColor.y+1,'sensorBar');
             topBars[ 'IR' ] = game.add.sprite( positionIR.x+1, positionIR.y+1,'sensorBar');
             topBars[ 'ultrasonic' ] = game.add.sprite( positionUltrasonic.x+1, positionUltrasonic.y+1,'sensorBar');
-            topBars[ 'screen' ] = game.add.sprite( positionScreen.x+1, positionScreen.y+1,'sensorBar');
+            //topBars[ 'screen' ] = game.add.sprite( positionScreen.x+1, positionScreen.y+1,'sensorBar');
 
           /* Labels */
             labelSystem = game.add.text(positionSystem.x+8, positionSystem.y+1+browserFix, "System", textStyles.title);
@@ -1225,7 +1245,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
             labelUltrasonicDist = game.add.text(positionUltrasonic.x+12+browserFix, positionUltrasonic.y+32+browserFix, "Distance:", textStyles.label);
             labelUltrasonicUnits = game.add.text(positionUltrasonic.x+128+browserFix, positionUltrasonic.y+32+browserFix, "cm", textStyles.label);
             
-            labelScreen = game.add.text(positionScreen.x+8, positionScreen.y+1+browserFix, "LCD Screen", textStyles.title);
+            //labelScreen = game.add.text(positionScreen.x+8, positionScreen.y+1+browserFix, "LCD Screen", textStyles.title);
 
           /* Dashboard stop/resume button */
             statusButton = game.add.button(positionSystem.x+10, positionSystem.y+33, 'statusButton', actionStopOnClick);
@@ -1248,14 +1268,14 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
             batteryLevelFill.beginFill(0x808080, 1);
             batteryLevelFill.drawRect(positionSystem.x+207, positionSystem.y+37, Math.round(battery.level*50), 16); // the "x50" converts the battery level (whatever it initially is) to the scale of 50 px wide
           /* LCD Screen */
-            LCDScreenBox = game.add.graphics(0,0);
-            LCDScreenBox.beginFill(0x808080, 0.6);
-            LCDScreenBox.lineStyle(2, 0xa3a3a3, 1);
-            LCDScreenBox.drawRect(positionScreen.x+10, positionScreen.y+32, 190, 57);
-            screenInputButton = game.add.button(positionScreen.x+210, positionScreen.y+31, 'screenInputButton', actionInputMessageOnClick);
-            screenInputButton.setFrames(1,0,2,0);
-            screenInputButton.input.useHandCursor = true;
-            displayOnLCDScreen( "Display a message on the  Gigabots's LCD screen..." );
+            // LCDScreenBox = game.add.graphics(0,0);
+            // LCDScreenBox.beginFill(0x808080, 0.6);
+            // LCDScreenBox.lineStyle(2, 0xa3a3a3, 1);
+            // LCDScreenBox.drawRect(positionScreen.x+10, positionScreen.y+32, 190, 57);
+            // screenInputButton = game.add.button(positionScreen.x+210, positionScreen.y+31, 'screenInputButton', actionInputMessageOnClick);
+            // screenInputButton.setFrames(1,0,2,0);
+            // screenInputButton.input.useHandCursor = true;
+            // displayOnLCDScreen( "Display a message on the  Gigabots's LCD screen..." );
 
           /* Create Motors */
             for ( var i = 1; i <= numMotors; i++ ) {
@@ -1843,11 +1863,11 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
                 game.paused = false;
             }
         }
-        function actionInputMessageOnClick() {
+/*        function actionInputMessageOnClick() {
             var messageDisplay = prompt("What would you like to display on the Gigabot's LCD screen?");
             displayOnLCDScreen( messageDisplay );
-        }
-        function displayOnLCDScreen( message ) {
+        }*/
+/*        function displayOnLCDScreen( message ) {
             game.world.remove(screenMessage.messageDisplay1); // remove any messages present
             game.world.remove(screenMessage.messageDisplay2);
             game.world.remove(screenMessage.messageDisplay3);
@@ -1863,7 +1883,7 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
             screenMessage.messageDisplay2 = game.add.text(positionScreen.x+13, positionScreen.y+49+browserFix, messageDisplay2, textStyles.message);
             screenMessage.messageDisplay3 = game.add.text(positionScreen.x+13, positionScreen.y+62+browserFix, messageDisplay3, textStyles.message);
             screenMessage.messageDisplay4 = game.add.text(positionScreen.x+13, positionScreen.y+75+browserFix, messageDisplay4, textStyles.message);
-        }
+        }*/
         function actionGetKeyspace() {
             // this is to query the current bot's keyspace, for testing/debugging
             console.log("\nGetting Keyspace Info for Bot " + botStore[ botId ] + "...\nBot Client Id = " + botId + "\nand bot selection index = " + botIndex);
@@ -2076,162 +2096,162 @@ require(['BrowserBigBangClient', 'PewRuntime'], function (bigbang, pew) {
 
         /* responsive stuff */
 
-        var compare = 'same';
+        // var compare = 'same';
 
-        window.onresize = function(event) {
-            var size = {
-                width : $window.width(),
-                height : $window.height()
-            }
-            if ( size.width >= 1132 ) {
-                canvasWidth = 1132; // 4 columns
-            } 
-            else if ( size.width <= 562 ) {
-                canvasWidth = 562; // 2 columns
-            }
-            else {
-                canvasWidth = 847; // 3 columns
-            }
-            if ( game.width !== canvasWidth && canvasWidth === 847 ) { // if current game width is greater than the new width, make it smaller
-                game.scale.width = game.canvas.width = game.stage.width = game.width = canvasWidth;
-                game.renderer.resize(canvasWidth, canvasHeight);
-                if ( compare !== 'medium') {
-                    for ( var k in gangs ) {
-                        moveGang( k, 3 )
-                    }
-                    //
-                }
-                compare = 'medium';
-            }
-            else if ( game.width !== canvasWidth && canvasWidth === 1132 ) { // make it bigger;
-                game.scale.width = game.canvas.width = game.stage.width = game.width = canvasWidth;
-                game.renderer.resize(canvasWidth, canvasHeight);
-                if ( compare !== 'large') {
-                    for ( var k in gangs ) {
-                        moveGang( k, 4 )
-                    }
-                    //
-                }
-                compare = 'large';
-            }
-            else if ( game.width !== canvasWidth && canvasWidth === 562 ) { // make it bigger;
-                game.scale.width = game.canvas.width = game.stage.width = game.width = canvasWidth;
-                game.renderer.resize(canvasWidth, canvasHeight);
-                if ( compare !== 'small') {
-                    for ( var k in gangs ) {
-                        moveGang( k, 2 )
-                    }
-                    //
-                }
-                compare = 'small';
-            }
-            else {
-                return 0;
-            }
+        // window.onresize = function(event) {
+        //     var size = {
+        //         width : $window.width(),
+        //         height : $window.height()
+        //     }
+        //     if ( size.width >= 1132 ) {
+        //         canvasWidth = 1132; // 4 columns
+        //     } 
+        //     else if ( size.width <= 562 ) {
+        //         canvasWidth = 562; // 2 columns
+        //     }
+        //     else {
+        //         canvasWidth = 847; // 3 columns
+        //     }
+        //     if ( game.width !== canvasWidth && canvasWidth === 847 ) { // if current game width is greater than the new width, make it smaller
+        //         game.scale.width = game.canvas.width = game.stage.width = game.width = canvasWidth;
+        //         game.renderer.resize(canvasWidth, canvasHeight);
+        //         if ( compare !== 'medium') {
+        //             for ( var k in gangs ) {
+        //                 moveGang( k, 3 )
+        //             }
+        //             //
+        //         }
+        //         compare = 'medium';
+        //     }
+        //     else if ( game.width !== canvasWidth && canvasWidth === 1132 ) { // make it bigger;
+        //         game.scale.width = game.canvas.width = game.stage.width = game.width = canvasWidth;
+        //         game.renderer.resize(canvasWidth, canvasHeight);
+        //         if ( compare !== 'large') {
+        //             for ( var k in gangs ) {
+        //                 moveGang( k, 4 )
+        //             }
+        //             //
+        //         }
+        //         compare = 'large';
+        //     }
+        //     else if ( game.width !== canvasWidth && canvasWidth === 562 ) { // make it bigger;
+        //         game.scale.width = game.canvas.width = game.stage.width = game.width = canvasWidth;
+        //         game.renderer.resize(canvasWidth, canvasHeight);
+        //         if ( compare !== 'small') {
+        //             for ( var k in gangs ) {
+        //                 moveGang( k, 2 )
+        //             }
+        //             //
+        //         }
+        //         compare = 'small';
+        //     }
+        //     else {
+        //         return 0;
+        //     }
+                       
+        //     // resize html elements
+        //     adjustHtml( canvasWidth, canvasHeight );
 
-            // resize html elements
-            adjustHtml( canvasWidth, canvasHeight );
+        // }
 
-        }
+        // function moveGang( id, col ) {
+        //   // set new positions:
+        //     if ( col === 4 ) {
+        //         gangColumns = 1; // make 1 column of gangs
+        //         gangRows = numGangs/gangColumns;
+        //         var heightMotors = maxMotorRows * ( motorHeight + 10 ) - 10;
+        //         var heightGangs = gangRows * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) - 10;
+        //         var heightMax = Math.max( heightMotors, heightGangs );
+        //         if ( heightMax + 2 > canvasHeight ) {
+        //             canvasHeight = heightMax + 2;
+        //         }
+        //         else if ( heightMax + 2 < canvasHeight ) {
+        //             canvasHeight = heightMax + 2;
+        //         }
+        //         game.scale.height = game.canvas.height = game.stage.height = game.height = canvasHeight;
+        //         game.renderer.resize(canvasWidth, canvasHeight);
+        //         var x = 286 + 285*2;
+        //         var y = 1 + ( id - 1 ) * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 );
+        //     }
+        //     else if ( col === 3 ) { //total # columns in dashboard
+        //         gangColumns = 2; // make 2 columns of gangs
+        //         game.scale.height = game.canvas.height = game.stage.height = game.height = canvasHeight = 2 + maxMotorRows * ( motorHeight + 10 ) + Math.ceil( numGangs / gangColumns ) * ( 231 + ( numCheckboxRows ) * 28 + 10 ) - 10;
+        //         game.renderer.resize(canvasWidth, canvasHeight);
+        //         if ( id % gangColumns === 0 ) {
+        //             var x = 286 + 285;
+        //         }
+        //         else {
+        //             var x = 286;
+        //         }
+        //         var y = 1 + maxMotorRows * ( motorHeight + 10 ) + ( Math.floor( id / 2 - .25 ) ) * (  gangHeightMin + ( numCheckboxRows ) * 28 + 10 );
+        //     }
+        //     else if ( col === 2 ) {
+        //         console.log("2 columns");
+        //         /*
+        //         * TODO
+        //         */
+        //     }
+        //     // really quick and dirty for now, just trying to get this movement to work - work out a more efficient way to do this. Maybe after creating everything, store it all in a gang object (for each gang id), and then just move everything by the same amount that the gang position moved.
+        //     frames[ id ].move( positionGangs[ id ].x, positionGangs[ id ].y, x, y );
+        //     topBars[ id ].x = x + 1;
+        //     topBars[ id ].y = y + 1;
+        //     dividers[ id + 'a' ].x = x + 7;
+        //     dividers[ id + 'a' ].y = y + 58;
+        //     dividers[ id + 'b' ].x = x + 7;
+        //     dividers[ id + 'b' ].y = y + 204;
+        //     gangLabels[ id ].x = x + 8;
+        //     gangLabels[ id ].y = y + 1 + browserFix;
+        //     sliderTracks[ id ].x = x + 170;
+        //     sliderTracks[ id ].y = y + 39;
+        //     for ( var k = 0; k <= 7; k++ ) {
+        //         var speedLabel = 100 * k + "";
+        //         sliderSpeedIncrements[ id ][ k ].x = x + 243;
+        //         sliderSpeedIncrements[ id ][ k ].y = y + 185 - 22*k + browserFix;
+        //     }
+        //     sliderSpeedLabels[ id ].x = x + 160;
+        //     sliderSpeedLabels[ id ].y = y + 206 + browserFix;
+        //     currentSpeedLabels[ id ].x = x + 12;
+        //     currentSpeedLabels[ id ].y = y + 33 + browserFix;
+        //     directionsNote[ id ].x = x + 11;
+        //     directionsNote[ id ].y = y + 166 + browserFix;
+        //     gangForwardButtons[ id ].x = x + 10;
+        //     gangForwardButtons[ id ].y = y + 65;
+        //     gangReverseButtons[ id ].x = x + 10;
+        //     gangReverseButtons[ id ].y = y + 117;
+        //     gangPlusButtons[ id ].x = x + 112;
+        //     gangPlusButtons[ id ].y = y + 68
+        //     gangMinusButtons[ id ].x = x + 112;
+        //     gangMinusButtons[ id ].y = y + 115;
+        //     gangSliderBars[ id ].x = x + 165;
+        //     gangSliderBars[ id ].y = y + 188;
+        //     gangMotorLabels[ id ][ 'motors' ].x = x + 12;
+        //     gangMotorLabels[ id ][ 'motors' ].y = y + 207;
+        //     if ( typeof gangs[ id ].currentSpeedDisplay !== "undefined") {
+        //         gangs[ id ].currentSpeedDisplay.x = x + 103;
+        //         gangs[ id ].currentSpeedDisplay.y = y + 30 + browserFix;
+        //     }
+        //     // do this more efficiently... (make a position ganged motor checkbox function that takes the gang id and the number of motors or something, which we can use in create() and here)
+        //     if ( numMotors <= 6 ) {
+        //         var spacing = Math.ceil( frames[ id ].width / ( numMotors + 1 ) );
+        //         for ( var j = 1; j <= numMotors; j++ ) {
+        //             gangCheckboxes[ id ][ letters[j] ].x = x + Math.floor( spacing/2 ) + (j-1) * spacing;
+        //             gangCheckboxes[ id ][ letters[j] ].y = y + gangHeightMin;
+        //             gangMotorLabels[ id ][ letters[j] ].x = gangCheckboxes[id][ letters[j] ].x + 26;
+        //             gangMotorLabels[ id ][ letters[j] ].y = gangCheckboxes[id][ letters[j] ].y + 2 + browserFix;
+        //         }
+        //     }
+        //     else if ( numMotors > 6 ) {
+        //         /*
+        //         * TODO
+        //         * prob something more efficient here (and above) later...
+        //         */
+        //     }
+        //     positionGangs[ id ] = { // replace old positions 
+        //         x : x , 
+        //         y : y 
+        //     }            
 
-        function moveGang( id, col ) {
-          // set new positions:
-            if ( col === 4 ) {
-                gangColumns = 1; // make 1 column of gangs
-                gangRows = numGangs/gangColumns;
-                var heightMotors = maxMotorRows * ( motorHeight + 10 ) - 10;
-                var heightGangs = gangRows * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 ) - 10;
-                var heightMax = Math.max( heightMotors, heightGangs );
-                if ( heightMax + 2 > canvasHeight ) {
-                    canvasHeight = heightMax + 2;
-                }
-                else if ( heightMax + 2 < canvasHeight ) {
-                    canvasHeight = heightMax + 2;
-                }
-                game.scale.height = game.canvas.height = game.stage.height = game.height = canvasHeight;
-                game.renderer.resize(canvasWidth, canvasHeight);
-                var x = 286 + 285*2;
-                var y = 1 + ( id - 1 ) * ( gangHeightMin + ( numCheckboxRows ) * 28 + 10 );
-            }
-            else if ( col === 3 ) { //total # columns in dashboard
-                gangColumns = 2; // make 2 columns of gangs
-                game.scale.height = game.canvas.height = game.stage.height = game.height = canvasHeight = 2 + maxMotorRows * ( motorHeight + 10 ) + Math.ceil( numGangs / gangColumns ) * ( 231 + ( numCheckboxRows ) * 28 + 10 ) - 10;
-                game.renderer.resize(canvasWidth, canvasHeight);
-                if ( id % gangColumns === 0 ) {
-                    var x = 286 + 285;
-                }
-                else {
-                    var x = 286;
-                }
-                var y = 1 + maxMotorRows * ( motorHeight + 10 ) + ( Math.floor( id / 2 - .25 ) ) * (  gangHeightMin + ( numCheckboxRows ) * 28 + 10 );
-            }
-            else if ( col === 2 ) {
-                console.log("2 columns");
-                /*
-                * TODO
-                */
-            }
-            // really quick and dirty for now, just trying to get this movement to work - work out a more efficient way to do this. Maybe after creating everything, store it all in a gang object (for each gang id), and then just move everything by the same amount that the gang position moved.
-            frames[ id ].move( positionGangs[ id ].x, positionGangs[ id ].y, x, y );
-            topBars[ id ].x = x + 1;
-            topBars[ id ].y = y + 1;
-            dividers[ id + 'a' ].x = x + 7;
-            dividers[ id + 'a' ].y = y + 58;
-            dividers[ id + 'b' ].x = x + 7;
-            dividers[ id + 'b' ].y = y + 204;
-            gangLabels[ id ].x = x + 8;
-            gangLabels[ id ].y = y + 1 + browserFix;
-            sliderTracks[ id ].x = x + 170;
-            sliderTracks[ id ].y = y + 39;
-            for ( var k = 0; k <= 7; k++ ) {
-                var speedLabel = 100 * k + "";
-                sliderSpeedIncrements[ id ][ k ].x = x + 243;
-                sliderSpeedIncrements[ id ][ k ].y = y + 185 - 22*k + browserFix;
-            }
-            sliderSpeedLabels[ id ].x = x + 160;
-            sliderSpeedLabels[ id ].y = y + 206 + browserFix;
-            currentSpeedLabels[ id ].x = x + 12;
-            currentSpeedLabels[ id ].y = y + 33 + browserFix;
-            directionsNote[ id ].x = x + 11;
-            directionsNote[ id ].y = y + 166 + browserFix;
-            gangForwardButtons[ id ].x = x + 10;
-            gangForwardButtons[ id ].y = y + 65;
-            gangReverseButtons[ id ].x = x + 10;
-            gangReverseButtons[ id ].y = y + 117;
-            gangPlusButtons[ id ].x = x + 112;
-            gangPlusButtons[ id ].y = y + 68
-            gangMinusButtons[ id ].x = x + 112;
-            gangMinusButtons[ id ].y = y + 115;
-            gangSliderBars[ id ].x = x + 165;
-            gangSliderBars[ id ].y = y + 188;
-            gangMotorLabels[ id ][ 'motors' ].x = x + 12;
-            gangMotorLabels[ id ][ 'motors' ].y = y + 207;
-            if ( typeof gangs[ id ].currentSpeedDisplay !== "undefined") {
-                gangs[ id ].currentSpeedDisplay.x = x + 103;
-                gangs[ id ].currentSpeedDisplay.y = y + 30 + browserFix;
-            }
-            // do this more efficiently... (make a position ganged motor checkbox function that takes the gang id and the number of motors or something, which we can use in create() and here)
-            if ( numMotors <= 6 ) {
-                var spacing = Math.ceil( frames[ id ].width / ( numMotors + 1 ) );
-                for ( var j = 1; j <= numMotors; j++ ) {
-                    gangCheckboxes[ id ][ letters[j] ].x = x + Math.floor( spacing/2 ) + (j-1) * spacing;
-                    gangCheckboxes[ id ][ letters[j] ].y = y + gangHeightMin;
-                    gangMotorLabels[ id ][ letters[j] ].x = gangCheckboxes[id][ letters[j] ].x + 26;
-                    gangMotorLabels[ id ][ letters[j] ].y = gangCheckboxes[id][ letters[j] ].y + 2 + browserFix;
-                }
-            }
-            else if ( numMotors > 6 ) {
-                /*
-                * TODO
-                * prob something more efficient here (and above) later...
-                */
-            }
-            positionGangs[ id ] = { // replace old positions 
-                x : x , 
-                y : y 
-            }            
-
-        }
+        // }
 
         // end responsive stuff
 

@@ -38,6 +38,20 @@
 	clear: both;
 }
 
+/* Video canvas
+========================================= */
+#videoCanvas {
+    /* Always stretch the canvas to 560x420, regardless of its
+    internal size. */
+    background-color: rgba(49, 50, 51, .5);
+    width: 560px;
+    height: 420px;
+    display: block;
+    margin: -664px auto auto auto;
+    position: relative;
+    text-align: center;
+}
+
 /* Text editor
 ========================================= */
 #textEditor {
@@ -53,8 +67,8 @@
 	border-style: solid;
 	border-width: 2px;
 	border-color: #6f6f6f;
-	margin: 8px auto -0 auto;
-	/*margin: 8px auto -36px auto;*/
+	margin: 250px auto -0 auto; /* moved down 664px because of relative positioning below video canvas*/
+	/*margin: 8px auto -0 auto;*/
 	font-size: 12px;
 	position: relative;
 	padding-bottom: 20px;
